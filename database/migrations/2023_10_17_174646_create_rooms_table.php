@@ -20,6 +20,8 @@ return new class extends Migration
             $table->integer(column: 'likes')->nullable();
             $table->boolean(column: 'is_published')->default(value:1);
             $table->integer(column: 'persons');
+
+            $table->softDeletes();
         });
     }
 
