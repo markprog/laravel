@@ -25,5 +25,7 @@ Route::get('/room', action: 'App\Http\Controllers\RoomController@index');
 Route::get('/room/create', action: 'App\Http\Controllers\RoomController@create');
 Route::get('/room/update', action: 'App\Http\Controllers\RoomController@update');
 Route::get('/room/delete', action: 'App\Http\Controllers\RoomController@delete');
+Route::get('/room/firstorcreate', action: 'App\Http\Controllers\RoomController@firstOrCreate');
+Route::get('/room/updateorcreate', action: 'App\Http\Controllers\RoomController@updateOrCreate');
 
 

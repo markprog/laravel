@@ -24,15 +24,13 @@ class RoomController extends Controller
         // dd($rooms);
 
         $rooms = Room::all(); // Получаем все записи из таблицы posts
+        return view('rooms', compact('rooms'));
+        // foreach ($rooms as $room) {
+        // // Ваш код для обработки каждой записи $post
+        // echo $room->title . ' - ' . $room->width . ' на ' . $room->length . '<br>';
+        // }
 
-        foreach ($rooms as $room) {
-        // Ваш код для обработки каждой записи $post
-        echo $room->title . ' - ' . $room->width . ' на ' . $room->length . '<br>';
-        }
-
-        
-
-
+       
     }
 
     public $i;
@@ -112,6 +110,78 @@ class RoomController extends Controller
 
             dd('Deleted'); 
             
+
+        }
+
+
+        public function firstOrCreate(){
+           
+            // $room = Room::find(8);
+            // dd($room->title);
+
+            // $anotherRoom = [
+            //     'title' => 'Another Title ',
+            //     'width' => '5',
+            //     'length' => '2',
+            //     'likes' => '10000',
+            //     'persons' => '3'
+            // ];
+
+                $room = Room::firstOrCreate(
+                [
+                    'title' => 'title 200'
+                ],
+                [
+                    'title' => 'Another Title ',
+                'width' => '5',
+                'length' => '2',
+                'likes' => '10000',
+                'persons' => '3'
+                ]
+
+
+
+                );
+
+                dd($room->title . ' ' . $room->width . ' ' . $room->persons);
+                
+                dd('finished');
+
+        }
+
+
+        public function updateOrCreate(){
+           
+            // $room = Room::find(8);
+            // dd($room->title);
+
+            // $anotherRoom = [
+            //     'title' => 'Another Title ',
+            //     'width' => '5',
+            //     'length' => '2',
+            //     'likes' => '10000',
+            //     'persons' => '3'
+            // ];
+
+                $room = Room::updateOrCreate(
+                [
+                    'title' => 'Title 90' 
+                ],
+                [
+                'title' => 'title 2000',
+                'width' => '55',
+                'length' => '20',
+                'likes' => '1',
+                'persons' => '30'
+                ]
+
+
+
+                );
+
+                dd($room->title . ' ' . $room->width . ' ' . $room->persons);
+                
+                dd('finished');
 
         }
 
