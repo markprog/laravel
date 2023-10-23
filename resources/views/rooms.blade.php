@@ -6,7 +6,7 @@
     <title>Document</title>
 </head>
 <body>
-    HTML Document
+    HTML Document   
 
     @foreach($rooms as $room)
        <h4> Комната: {{$room->title}}<br>  Вместимость: {{$room->persons}} человек. </h4> 
