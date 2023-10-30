@@ -1,15 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    HTML Document   
+@extends('layouts.main')
+@section('content') 
 
-    @foreach($rooms as $room)
-       <h4> Комната: {{$room->title}}<br>  Вместимость: {{$room->persons}} человек. </h4> 
-    @endforeach
-</body>
-</html>
+     Комнаты<br>
+
+     <div class="table-responsive small" bis_skin_checked="1">
+        <table class="table table-striped table-sm">
+          <thead>
+            <tr>
+              <th scope="col">id</th>
+              <th scope="col">title</th>
+              <th scope="col">persons</th>
+              <th scope="col">name</th>
+              <th scope="col">email</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+               <td>{{$room-id}}</td>
+              <td>{{$room->title}}</td>
+              <td>{{$room->persons}}</td>
+              
+              <td>{{$room->name}}</td>
+              <td>{{$room->email}}</td>
+            </tr>
+            
+          </tbody>
+        </table>
+      </div>
+
+    
+
+
+@endsection

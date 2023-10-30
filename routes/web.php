@@ -15,13 +15,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', function () { return view('welcome'); })->name('welcome');
 
-Route::get('/landing', action: 'App\Http\Controllers\HomeController@home');
+Route::get('/home', action: 'App\Http\Controllers\HomeController@home')->name('home.index');;
 
-Route::get('/room', action: 'App\Http\Controllers\RoomController@index');
+Route::get('/about', action: 'App\Http\Controllers\AboutController@index')->name('about.index');
+
+Route::get('/room', action: 'App\Http\Controllers\RoomController@index')->name('room.index');;
 Route::get('/room/create', action: 'App\Http\Controllers\RoomController@create');
 Route::get('/room/update', action: 'App\Http\Controllers\RoomController@update');
 Route::get('/room/delete', action: 'App\Http\Controllers\RoomController@delete');
