@@ -22,6 +22,7 @@ Route::get('/home', action: 'App\Http\Controllers\HomeController@home')->name('h
 Route::get('/about', action: 'App\Http\Controllers\AboutController@index')->name('about.index');
 
 Route::get('/room', action: 'App\Http\Controllers\RoomController@index')->name('room.index');;
+Route::post('/room', action:'App\Http\Controllers\RoomController@store')->name('room.store');
 Route::get('/room/create', action: 'App\Http\Controllers\RoomController@create');
 Route::get('/room/update', action: 'App\Http\Controllers\RoomController@update');
 Route::get('/room/delete', action: 'App\Http\Controllers\RoomController@delete');
