@@ -11,25 +11,10 @@ class RoomController extends Controller
     
     
     public function index(){
-        
-        // $kitchen = Room::find(1);
-        // //dd($string);
-    
-        // var_dump($kitchen->title);
-        // dd($kitchen);
-        // return $kitchen;
-
-        // $rooms = Room::all();
-        // //dump($rooms);
-        // dd($rooms);
+  
 
         $rooms = Room::all(); // Получаем все записи из таблицы posts
-        return view('rooms', compact('rooms'));
-        // foreach ($rooms as $room) {
-        // // Ваш код для обработки каждой записи $post
-        // echo $room->title . ' - ' . $room->width . ' на ' . $room->length . '<br>';
-        // }
-
+        return view('rooms.index', compact('rooms'));
        
     }
 
@@ -37,48 +22,19 @@ class RoomController extends Controller
 
     public function create(){
 
-        $roomsArr = [
-            [
-            
-            'title' =>'Title 8',
-            'width' =>'4',
-            'length' =>'2',
-            'likes' =>'100',
-            'persons' =>'2'
-            ]
-            ,
-            [
-                
-                'title' =>'Title 9',
-                'width' =>'9',
-                'length' =>'6',
-                'likes' =>'700',
-                'persons' =>'2'
-                ]
-            
-        ];
+    //    foreach ($roomsArr as $room) {
+    //         Room::create($room);
+    //    }
 
-       foreach ($roomsArr as $room) {
-            Room::create($room);
-       }
-
-    
-
-       
-       
-        while ($this->i <= 100) { // Замените 10 на количество итераций, которое вам нужно
-            Room::create([
-                'title' => 'Title ' . $this->i,
-                'width' => '4',
-                'length' => '2',
-                'likes' => '100',
-                'persons' => '2'
-            ]);
-        
-            $this->i++; // Увеличиваем i для следующей итерации
-        }
+    return view('rooms.create');
 
     }
+
+    public function store(){
+    
+        dd('111111111');
+    
+        }
 
         public function update()
         {
