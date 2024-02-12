@@ -31,42 +31,64 @@ class RoomController extends Controller
     }
 
     public function store(){
-    
-        dd('111111111');
+        
+        $data = request()->validate([
+            'title' => 'string',
+            'width' => '',
+            'length' => '',
+            'likes' => '',
+            'persons' => ''
+
+        ]);
+
+        Room::create($data);
+        return redirect()->route('room.index');
     
         }
 
-        public function update()
-        {
-            $room = Room::find(8);
-            dd($room->title); 
+        public function show(Room $room){
             
+            //$room = Room::findOrFail($id);
+            //dd($room->title);
+            return view('rooms.show',  compact('room'));
+        
+            }
 
-            $room->update([
-                'title' => 'Updated Title',
-                'width' => '4',
-                'length' => '2',
-                'likes' => '100',
-                'persons' => '2'
+        public function edit(Room $room){
+            
+                //$room = Room::findOrFail($id);
+                //dd($room->title);
+                return view('rooms.edit',  compact('room'));
+            
+        }
+
+        public function update(Room $room){
+            
+            //$room = Room::findOrFail($id);
+            //dd($room->title);
+            $data = request()->validate([
+                'title' => 'string',
+                'width' => '',
+                'length' => '',
+                'likes' => '',
+                'persons' => ''
+    
             ]);
+            $room->update($data);
+            return redirect()->route('room.index');
 
-            dd('updated'); 
-            
+            //Room::update($data);
+            //return redirect()->route('room.index');
 
+        
         }
+    
 
-        public function delete()
+        public function destroy(Room $room)
         {
-           
-            $room = Room::where('persons', 2);
-            
-            
-
             $room->delete();
-
-            dd('Deleted'); 
+            return redirect()->route('room.index');
             
-
         }
 
 

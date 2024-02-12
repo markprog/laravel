@@ -4,7 +4,7 @@
 
 Главная страница!
 
-</duv>
+</div>
 @endsection('content')  
 
 

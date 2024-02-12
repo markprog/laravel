@@ -4,17 +4,14 @@
 <div class="container">
      <h3>Создание комнаты</h3>
      
-     <form class="col-6" action="{{ route('rooms.store') }}" method="post">
+     <form class="col-6" action="{{ route('room.store') }}" method="post">
           @csrf
-  <div class="form-group">
-    <label for="created_at">created_at</label>
-    <input type="text" class="form-control" name="created_at" placeholder="created_at">
+
+   <div class="form-group">
+      <label for="title">Title</label>
+      <input type="title" class="form-control" name="title" placeholder="title">
   </div>
 
-  <div class="form-group">
-    <label for="updated_at">updated_at</label>
-    <input type="text" class="form-control" name="updated_at" placeholder="updated_at">
-  </div>
 
   <div class="form-group">
     <label for="width">width</label>
@@ -31,10 +28,6 @@
     <input type="number" class="form-control" name="likes" placeholder="likes">
   </div>
 
-  <div class="form-group">
-    <label for="is_published">is_published</label>
-    <input type="text" class="form-control" name="is_published" placeholder="is_published">
-  </div>
 
   <div class="form-group">
     <label for="persons">persons</label>
