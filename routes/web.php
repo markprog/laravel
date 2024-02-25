@@ -1,6 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Barryvdh\DomPDF\Facade as PDF;
+use App\Http\Controllers\GoogleSheetsController;
+use App\Http\Controllers\GoogleSheetToJsonController;
+use App\Http\Controllers\SheetdbController;
 
 
 
@@ -34,5 +38,26 @@ Route::get('/room/{room}/edit', action: 'App\Http\Controllers\RoomController@edi
 Route::patch('/room/{room}', action: 'App\Http\Controllers\RoomController@update')->name('room.update');
 
 Route::delete('/room/{room}', action: 'App\Http\Controllers\RoomController@destroy')->name('room.destroy');
+
+
+
+Route::get('/connect', [GoogleSheetsController::class, 'connect']);
+Route::get('/callback', [GoogleSheetsController::class, 'callback']);
+Route::get('/google-sheets-data', [GoogleSheetToJsonController::class, 'viewData']);
+
+Route::get('/sheetdb', [SheetdbController::class, 'get']);
+
+Route::get('/google-login', [GoogleSheetToJsonController::class, 'redirectToGoogle']);
+Route::get('/google-callback', [GoogleSheetToJsonController::class, 'handleGoogleCallback']);
+
+
+
+
+
+
+
+
+
+
 
 
