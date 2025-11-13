@@ -54,6 +54,14 @@ class TelegramBotController extends Controller
                 return response()->json(['status' => 'send_failed', 'message' => $e->getMessage()], 200); 
             }
         } 
+
+        else {
+             Telegram::sendMessage([
+                
+                    'text' => 'Нет данных',
+                    
+                ]);
+        }
         
         // Возвращаем OK для других типов обновлений (например, колбэки, изменения в группе)
         return response()->json(['status' => 'ok', 'message' => 'Update received but no message chat ID found.'], 200);
