@@ -10,17 +10,18 @@ class TelegramBotController extends Controller
 {
     public function webhook(Request $request)
     {
-        $update = $request->all(); // Берём весь update
+        $update = $request->all(); // Берём весь update от Telegram
 
-        Log::info('Telegram update:', $update); // Логируем входящие сообщения
+        // Логируем update, чтобы видеть структуру и chat_id
+        Log::info('Telegram update received:', $update);
 
-        // Проверяем, что пришло сообщение
+        // Проверяем, есть ли chat.id
         if (isset($update['message']['chat']['id'])) {
             $chatId = $update['message']['chat']['id'];
             $text = $update['message']['text'] ?? '';
 
-            // Шаблон ответа
-            $replyText = "Вы написали: \"$text\"\nСпасибо, что пишете!";
+            // Простейший шаблон ответа
+            $replyText = "Вы написали: \"$text\"\nСпасибо за сообщение!";
 
             try {
                 Telegram::sendMessage([
@@ -30,6 +31,8 @@ class TelegramBotController extends Controller
             } catch (\Exception $e) {
                 Log::error('Telegram sendMessage error: ' . $e->getMessage());
             }
+        } else {
+            Log::warning('Update does not contain chat id.', $update);
         }
 
         return response()->json(['status' => 'ok']);
