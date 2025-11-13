@@ -10,19 +10,22 @@ class TelegramBotController extends Controller
 {
     public function webhook(Request $request)
     {
-        $update = $request->all(); // Берём весь JSON от Telegram
+        $update = $request->all(); // Берём весь update
 
-        Log::info('Telegram update:', $update); // Логируем для проверки
+        Log::info('Telegram update:', $update); // Логируем входящие сообщения
 
+        // Проверяем, что пришло сообщение
         if (isset($update['message']['chat']['id'])) {
             $chatId = $update['message']['chat']['id'];
             $text = $update['message']['text'] ?? '';
 
-            // Простейший ответ
+            // Шаблон ответа
+            $replyText = "Вы написали: \"$text\"\nСпасибо, что пишете!";
+
             try {
                 Telegram::sendMessage([
                     'chat_id' => $chatId,
-                    'text' => "Вы написали: $text"
+                    'text' => $replyText
                 ]);
             } catch (\Exception $e) {
                 Log::error('Telegram sendMessage error: ' . $e->getMessage());
