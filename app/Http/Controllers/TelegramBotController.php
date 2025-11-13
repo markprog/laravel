@@ -14,7 +14,7 @@ class TelegramBotController extends Controller
 
     // ПРОВЕРКА CHAT ID
     if (isset($update['message']['id'])) {
-        $chatId = 6415801830;
+        $chatId = 328561595;
         
         try {
             // УБЕДИТЕСЬ, ЧТО ВЫ ЗДЕСЬ ИСПОЛЬЗУЕТЕ Telegram::bot() ИЛИ Telegram::bot('StudioMatrixBot')
