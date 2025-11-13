@@ -31,22 +31,19 @@ return [
     |             ]
     */
     'bots' => [
-        'mybot' => [
-            'token' => '6415801830:AAFqfHnTPxcWAb10kJQJA09lpI3iIe7iG4Y',
-            'certificate_path' => env('TELEGRAM_CERTIFICATE_PATH', 'YOUR-CERTIFICATE-PATH'),
-            'webhook_url' => env('TELEGRAM_WEBHOOK_URL', 'YOUR-BOT-WEBHOOK-URL'),
-            /*
-             * @see https://core.telegram.org/bots/api#update
-             */
-            'allowed_updates' => null,
-            'commands' => [
-                // Acme\Project\Commands\MyTelegramBot\BotCommand::class
-            ],
-        ],
+       // Если вы используете Telegram::sendMessage (без .bot('имя'))
+    'default' => [ 
+        'username' => env('TELEGRAM_BOT_USERNAME', 'MyDefaultBot'),
+        'token' => env('TELEGRAM_BOT_TOKEN', 'YOUR-TOKEN'),
+    ],
 
-        //        'mySecondBot' => [
-        //            'token' => '123456:abc',
-        //        ],
+        'StudioMatrixBot' => [ // <--- ИМЕННО ЭТО ИМЯ ТРЕБУЕТСЯ
+        'username' => 'StudioMatrixBot', 
+        'token' => env('TELEGRAM_BOT_TOKEN_STUDIO_MATRIX', '6415801830:AAFqfHnTPxcWAb10kJQJA09lpI3iIe7iG4Y'),
+        'commands' => [
+            // ...
+        ],
+    ],
     ],
 
     /*
