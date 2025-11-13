@@ -9,42 +9,27 @@ use Illuminate\Support\Facades\Log;
 class TelegramBotController extends Controller
 {
     public function webhook(Request $request)
-    {
-        $update = $request->all();
+{
+    $update = $request->all();
 
-        // 1. Проверяем, что это сообщение, и получаем Chat ID
-        if (isset($update['message']['chat']['id'])) {
-            $chatId = $update['message']['chat']['id'];
-            $text = $update['message']['text'] ?? 'no text';
-
-            // 2. Логируем для подтверждения, что дошли сюда
-            Log::info("✅ Webhook hit. Attempting to reply to Chat ID: {$chatId}");
-
-            try {
-                // 3. Отправка фиксированного тестового сообщения
-                Telegram::bot()->sendMessage([
-                    'chat_id' => $chatId,
-                    'text' => 'Тест пройден! Ответ отправлен.',
-                ]);
-
-                // 4. Если отправка успешна, логируем успех
-                Log::info("✅ Reply success to {$chatId}.");
-                
-                return response()->json(['status' => 'ok', 'message' => 'Reply sent']);
-
-            } catch (\Exception $e) {
-                // 5. Логируем точную ошибку Telegram API
-                Log::error('Telegram SEND ERROR. CHECK TOKEN/FIREWALL.', [
-                    'error' => $e->getMessage(),
-                    'chat_id' => $chatId,
-                ]);
-            }
-        } else {
-             // Логируем, если пришло не сообщение (например, callback)
-             Log::warning('⚠️ Update received but no message ID found.');
+    // ПРОВЕРКА CHAT ID
+    if (isset($update['message']['chat']['id'])) {
+        $chatId = $update['message']['chat']['id'];
+        
+        try {
+            // УБЕДИТЕСЬ, ЧТО ВЫ ЗДЕСЬ ИСПОЛЬЗУЕТЕ Telegram::bot() ИЛИ Telegram::bot('StudioMatrixBot')
+            Telegram::bot('StudioMatrixBot')->sendMessage([ // <-- Используйте явное имя бота
+                'chat_id' => $chatId,
+                'text' => 'Тест пройден!',
+            ]);
+            
+            return response()->json(['status' => 'ok']);
+        } catch (\Exception $e) {
+            // ... обработка ошибок отправки
         }
-
-        // Всегда возвращаем HTTP 200 OK для Telegram
-        return response()->json(['status' => 'ok', 'message' => 'Processed update']);
     }
+    
+    // Если Chat ID не найден, просто возвращаем OK, чтобы не вызывать 400
+    return response()->json(['status' => 'ok', 'message' => 'Update processed']);
+}
 }
