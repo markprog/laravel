@@ -12,45 +12,50 @@ class TelegramBotController extends Controller
     {
         $update = $request->all();
 
-        // 1. Логируем для диагностики
+        // Логируем полный update для отладки
         Log::info('Telegram update received:', $update);
 
-        // Проверяем наличие ключа 'message' и 'chat.id'
-        if (!isset($update['message']['chat']['id'])) {
-            Log::warning('Update does not contain message or chat id. Type: ' . (isset($update['update_id']) ? 'Update ID ' . $update['update_id'] : 'Unknown'), $update);
-            return response()->json(['status' => 'no_chat_id'], 200);
-        }
+        // Проверяем наличие сообщения и Chat ID
+        if (isset($update['message']['chat']['id'])) {
+            
+            // 1. ПОЛУЧЕНИЕ ЧАТ ID
+            $chatId = $update['message']['chat']['id'];
+            
+            // 2. ПОЛУЧЕНИЕ ИНФОРМАЦИИ О ПОЛЬЗОВАТЕЛЕ
+            $username = $update['message']['from']['username'] ?? 'Нет_имени';
+            $firstName = $update['message']['from']['first_name'] ?? 'Неизвестный';
+            $text = $update['message']['text'] ?? '[Сообщение без текста]';
+            
+            // Формируем информационное сообщение для логов
+            $logMessage = "Received message from user: **$firstName (@$username)**. Chat ID: **$chatId**";
+            Log::info($logMessage);
 
-        $chatId = $update['message']['chat']['id'];
-        $text = $update['message']['text'] ?? '[Сообщение без текста]';
+            // 3. Логика ответа
+            $replyText = "Здравствуйте, **$firstName**!\nВаш Chat ID: `$chatId`\nВы написали: \"$text\"";
+
+            try {
+                // 4. Отправка сообщения
+                Telegram::sendMessage([
+                    'chat_id' => $chatId,
+                    'text' => $replyText,
+                    'parse_mode' => 'Markdown' // Используем Markdown для выделения имени и ID
+                ]);
+                
+                return response()->json(['status' => 'reply_sent'], 200);
+
+            } catch (\Exception $e) {
+                // 5. Логируем ошибку отправки
+                Log::error('Telegram sendMessage error. Check token/connection:', [
+                    'error' => $e->getMessage(),
+                    'chat_id' => $chatId,
+                    'user' => $firstName,
+                ]);
+                
+                return response()->json(['status' => 'send_failed', 'message' => $e->getMessage()], 200); 
+            }
+        } 
         
-        // 2. Логика ответа
-        $replyText = "Вы написали: \"$text\"\nСпасибо за сообщение!";
-
-        try {
-            // 3. Отправка сообщения
-            Telegram::sendMessage([
-                'chat_id' => $chatId,
-                'text' => $replyText,
-                // Добавьте 'parse_mode' => 'Markdown' или 'HTML' при необходимости
-            ]);
-            
-            // Успешный ответ Telegram API
-            return response()->json(['status' => 'reply_sent'], 200);
-
-        } catch (\Exception $e) {
-            // 4. Логируем ошибку отправки
-            Log::error('Telegram sendMessage error. Check token/connection:', [
-                'error' => $e->getMessage(),
-                'chat_id' => $chatId,
-                'request_text' => $text
-            ]);
-            
-            // Возвращаем OK для Telegram, но с сообщением об ошибке для наших логов
-            return response()->json([
-                'status' => 'send_failed',
-                'message' => $e->getMessage()
-            ], 200); 
-        }
+        // Возвращаем OK для других типов обновлений (например, колбэки, изменения в группе)
+        return response()->json(['status' => 'ok', 'message' => 'Update received but no message chat ID found.'], 200);
     }
 }
