@@ -13,7 +13,7 @@ class TelegramBotController extends Controller
     $update = $request->all();
 
     // ПРОВЕРКА CHAT ID
-    if (isset($update['message']['chat']['id'])) {
+    if (isset($update['message'])) {
       
         
         try {
