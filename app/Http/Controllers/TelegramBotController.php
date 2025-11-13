@@ -16,10 +16,11 @@ class TelegramBotController extends Controller
 
         // Простейший ответ
         Telegram::sendMessage([
-            'chat_id' => $chatId,
+            'chat_id' => 6415801830,
             'text' => "Вы написали: $text"
         ]);
 
         return response()->json(['status' => 'ok']);
-    }
+
+        
 }
