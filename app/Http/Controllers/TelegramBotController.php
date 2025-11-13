@@ -22,7 +22,7 @@ class TelegramBotController extends Controller
 
             try {
                 // 3. Отправка фиксированного тестового сообщения
-                Telegram::sendMessage([
+                Telegram::bot()->sendMessage([
                     'chat_id' => $chatId,
                     'text' => 'Тест пройден! Ответ отправлен.',
                 ]);
@@ -34,7 +34,7 @@ class TelegramBotController extends Controller
 
             } catch (\Exception $e) {
                 // 5. Логируем точную ошибку Telegram API
-                Log::error('❌ Telegram SEND ERROR. CHECK TOKEN/FIREWALL.', [
+                Log::error('Telegram SEND ERROR. CHECK TOKEN/FIREWALL.', [
                     'error' => $e->getMessage(),
                     'chat_id' => $chatId,
                 ]);
