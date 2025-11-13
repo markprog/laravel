@@ -12,26 +12,24 @@ class TelegramBotController extends Controller
 {
     $update = $request->all();
 
-    // Логируем весь update для анализа
-    Log::info('Full Telegram Update:', $update);
-
+    // ПРОВЕРКА CHAT ID
     if (isset($update['message']['chat']['id'])) {
-        $chatId = $update['message']['chat']['id'];
-        
-        // КЛЮЧЕВОЙ ЛОГ ДЛЯ ДИАГНОСТИКИ
-        Log::info("Attempting to reply to Chat ID: {$chatId}"); 
+        $chatId = 6415801830;
         
         try {
-            // ... Здесь ваш код Telegram::sendMessage
-            // ...
+            // УБЕДИТЕСЬ, ЧТО ВЫ ЗДЕСЬ ИСПОЛЬЗУЕТЕ Telegram::bot() ИЛИ Telegram::bot('StudioMatrixBot')
+            Telegram::bot('StudioMatrixBot')->sendMessage([ // <-- Используйте явное имя бота
+                'chat_id' => $chatId,
+                'text' => 'Тест пройден!',
+            ]);
             
+            return response()->json(['status' => 'ok']);
         } catch (\Exception $e) {
-            // ... здесь логируется ваша ошибка 400
-            Log::error('400 Bad Request Error:', ['chat_id' => $chatId, 'error' => $e->getMessage()]);
+            // ... обработка ошибок отправки
         }
     }
     
-    // ...
-    return response()->json(['status' => 'ok', 'message' => 'Processed update']);
+    // Если Chat ID не найден, просто возвращаем OK, чтобы не вызывать 400
+    return response()->json(['status' => 'ok', 'message' => 'Update processed']);
 }
 }
