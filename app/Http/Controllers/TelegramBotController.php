@@ -24,3 +24,5 @@ class TelegramBotController extends Controller
 
         
 }
+
+}
