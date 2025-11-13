@@ -18,7 +18,7 @@ class TelegramBotController extends Controller
         
         try {
             // УБЕДИТЕСЬ, ЧТО ВЫ ЗДЕСЬ ИСПОЛЬЗУЕТЕ Telegram::bot() ИЛИ Telegram::bot('StudioMatrixBot')
-            Telegram::bot('StudioMatrixBot')->sendMessage([ // <-- Используйте явное имя бота
+            Telegram->sendMessage([ // <-- Используйте явное имя бота
                 'chat_id' => 328561595,
                 'text' => 'Тест пройден!',
             ]);
